@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import "./form.css";
 import Front from "./Front";
 import Back from "./Back";
-// import { isLabelWithInternallyDisabledControl } from "@testing-library/user-event/dist/utils";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// toast.configure({
+//   position: "top-center", // Set the position to top-center
+// });
+
 function Form() {
   const [cardHolderName, setCardHolderName] = useState("");
-  const [validName, setValidName] = useState(true);
+  const [validName, setValidName] = useState(false);
   const [cardNumber, setCardNumber] = useState("");
-  const [validCard, setValidCard] = useState(true);
+  const [validCard, setValidCard] = useState(false);
   const [month, setMonth] = useState("");
   const [validMonth, setValidMonth] = useState(true);
   const [year, setYear] = useState("");
@@ -16,6 +21,7 @@ function Form() {
   const [validCvc, setValidCvc] = useState(true);
   const [error, setError] = useState(false);
   const [formdata, setFormdata] = useState(null);
+  const SuccessToast = () => toast.success("Success!");
 
   const handleSubmit = (e) => {
     // console.log(cardNumber);
@@ -48,6 +54,7 @@ function Form() {
         cvv: cvc,
       };
       setFormdata(newformdata);
+      SuccessToast();
     }
   };
   const handleMonthChange = (e) => {
@@ -67,9 +74,18 @@ function Form() {
         setValidMonth(false);
       }
     }
-    if (isNaN(strMonth[0]) || isNaN(strMonth[1])) {
+    if (strMonth.length < 2) {
       setValidMonth(false);
     }
+    for (let i = 0; i < strMonth.length; i++) {
+      const char = strMonth[i];
+      if (isNaN(char)) {
+        setValidMonth(false);
+      }
+    }
+    // if (isNaN(strMonth[0]) || isNaN(strMonth[1])) {
+    //   setValidMonth(false);
+    // }
   };
   const handleYearChange = (e) => {
     setValidYear(true);
@@ -79,8 +95,17 @@ function Form() {
     if (isNaN(strYear)) {
       setValidYear(false);
     }
-    if (isNaN(strYear[0]) || isNaN(strYear[1])) {
+    if (strYear.length < 2) {
       setValidYear(false);
+    }
+    // if (isNaN(strYear[0]) || isNaN(strYear[1])) {
+    //   setValidYear(false);
+    // }
+    for (let i = 0; i < strYear.length; i++) {
+      const char = strYear[i];
+      if (isNaN(char)) {
+        setValidYear(false);
+      }
     }
   };
   const handleCvcChange = (e) => {
@@ -90,15 +115,22 @@ function Form() {
     if (isNaN(strCvc)) {
       setValidCvc(false);
     }
-    if (isNaN(strCvc[0]) || isNaN(strCvc[1]) || isNaN(strCvc[2])) {
+    if (strCvc.length < 3) {
       setValidCvc(false);
+    }
+    for (let i = 0; i < strCvc.length; i++) {
+      const char = strCvc[i];
+      if (isNaN(char)) {
+        setValidCvc(false);
+        break;
+      }
     }
   };
   const handleCardNumberChange = (e) => {
     setValidCard(true);
     setCardNumber(e.target.value);
     let strCard = e.target.value;
-    if (strCard[strCard.length - 1] == " ") {
+    if (strCard[strCard.length - 1] === " ") {
       e.target.value = strCard.slice(0, strCard.length - 1);
       setCardNumber(e.target.value);
     }
@@ -123,8 +155,8 @@ function Form() {
     // console.log(e.target.value);
     setCardHolderName(e.target.value);
     if (
-      name[name.length - 1] == " " &&
-      name[name.length - 2] == " " &&
+      name[name.length - 1] === " " &&
+      name[name.length - 2] === " " &&
       name.length
     ) {
       e.target.value = name.slice(0, name.length - 1);
@@ -156,6 +188,7 @@ function Form() {
   };
   return (
     <div>
+      <ToastContainer position="top-center" />
       <div className="wrapper">
         <div className="left-gradient">
           <div className="front">
