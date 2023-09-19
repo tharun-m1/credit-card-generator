@@ -1,0 +1,106 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  /* font-family: inter; */
+}
+.card-back {
+  width: 30vw;
+  height: 35vh;
+  /* border: 1px solid black; */
+  background-color: white;
+  /* backdrop-filter: blur(47.5px); */
+
+  border-radius: 10px;
+  /* border: 1px solid #000; */
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.code {
+  width: 100%;
+  height: 20%;
+  background-color: black;
+  position: relative;
+  top: 10%;
+}
+.cvv-container {
+  width: 80%;
+  height: 17%;
+  margin: auto;
+  border-radius: 4px;
+  background: #adb6bf;
+  position: relative;
+  top: 20%;
+  text-align: right;
+}
+.cvv-container div {
+  /* float: right;
+  right: -5%; */
+  color: white;
+  font-family: Roboto;
+  letter-spacing: 4px;
+  padding-top: 2.5%;
+  padding-right: 4%;
+  font-size: 1.2rem;
+}
+.design {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  /* border: 1px solid black; */
+  margin: auto;
+  position: relative;
+  top: 30%;
+  justify-content: space-between;
+  height: 15%;
+}
+.row1 {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+.row1 div {
+  height: 4px;
+  height: 5px;
+  border-radius: 4px;
+  background: #aeb5bd;
+}
+.row2 {
+  display: flex;
+
+  width: 90%;
+  margin: auto;
+  justify-content: space-around;
+}
+.row2 div {
+  height: 4px;
+  height: 5px;
+  border-radius: 4px;
+  background: #aeb5bd;
+}
+.row3 {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+}
+.row3 div {
+  height: 4px;
+  height: 5px;
+  border-radius: 4px;
+  background: #aeb5bd;
+}
+.fifty {
+  width: 45%;
+  background: #aeb5bd;
+}
+.twenty {
+  width: 15%;
+}
+.ten {
+  width: 5%;
+}
+.fourty {
+  width: 35%;
+}
+.thirty {
+  width: 25%;
+}

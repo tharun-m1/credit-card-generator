@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./form.css";
-import { isLabelWithInternallyDisabledControl } from "@testing-library/user-event/dist/utils";
+import Front from "./Front";
+import Back from "./Back";
+// import { isLabelWithInternallyDisabledControl } from "@testing-library/user-event/dist/utils";
 function Form() {
   const [cardHolderName, setCardHolderName] = useState("");
   const [validName, setValidName] = useState(true);
@@ -13,9 +15,13 @@ function Form() {
   const [cvc, setCvc] = useState("");
   const [validCvc, setValidCvc] = useState(true);
   const [error, setError] = useState(false);
+  const [formdata, setFormdata] = useState(null);
 
   const handleSubmit = (e) => {
+    // console.log(cardNumber);
     e.preventDefault();
+
+    // console.log(formdata);
 
     if (cardHolderName.length === 0 || cardNumber.length === 0) {
       setError(true);
@@ -29,12 +35,19 @@ function Form() {
     if (cvc.length === 0 || cvc.length < 3) {
       setValidCvc(false);
     }
-    if (cardNumber.length === 0) {
+    if (cardNumber.length === 0 || cardNumber.length < 16) {
       setValidCard(false);
-    } else {
-      if (cardNumber.length < 16 && cardNumber.length > 0) {
-        setValidCard(false);
-      }
+    }
+    console.log(validCard);
+    if (validName && validCard && validMonth && validYear && validCvc) {
+      const newformdata = {
+        name: cardHolderName,
+        cno: cardNumber,
+        mn: month,
+        yr: year,
+        cvv: cvc,
+      };
+      setFormdata(newformdata);
     }
   };
   const handleMonthChange = (e) => {
@@ -54,6 +67,9 @@ function Form() {
         setValidMonth(false);
       }
     }
+    if (isNaN(strMonth[0]) || isNaN(strMonth[1])) {
+      setValidMonth(false);
+    }
   };
   const handleYearChange = (e) => {
     setValidYear(true);
@@ -63,12 +79,18 @@ function Form() {
     if (isNaN(strYear)) {
       setValidYear(false);
     }
+    if (isNaN(strYear[0]) || isNaN(strYear[1])) {
+      setValidYear(false);
+    }
   };
   const handleCvcChange = (e) => {
     setValidCvc(true);
     setCvc(e.target.value);
     let strCvc = e.target.value;
     if (isNaN(strCvc)) {
+      setValidCvc(false);
+    }
+    if (isNaN(strCvc[0]) || isNaN(strCvc[1]) || isNaN(strCvc[2])) {
       setValidCvc(false);
     }
   };
@@ -81,7 +103,17 @@ function Form() {
       setCardNumber(e.target.value);
     }
 
-    if (isNaN(strCard)) {
+    // if (isNaN(strCard)) {
+    //   setValidCard(false);
+    // }
+    for (let i = 0; i < strCard.length; i++) {
+      const char = strCard[i];
+      if (isNaN(char)) {
+        setValidCard(false);
+        // return;
+      }
+    }
+    if (strCard.length < 16) {
       setValidCard(false);
     }
   };
@@ -99,22 +131,41 @@ function Form() {
       setCardHolderName(e.target.value);
     }
 
-    const char = name[name.length - 1];
-
-    if (
-      !(
-        (char >= "a" && char <= "z") ||
-        (char >= "A" && char <= "Z") ||
-        char === " "
-      )
-    ) {
-      setValidName(false);
+    for (let i = 0; i < name.length; i++) {
+      const char = name[i];
+      if (
+        !(
+          (char >= "a" && char <= "z") ||
+          (char >= "A" && char <= "Z") ||
+          char === " "
+        )
+      ) {
+        setValidName(false);
+      }
     }
+
+    // if (
+    //   !(
+    //     (char >= "a" && char <= "z") ||
+    //     (char >= "A" && char <= "Z") ||
+    //     char === " "
+    //   )
+    // ) {
+    //   setValidName(false);
+    // }
   };
   return (
     <div>
       <div className="wrapper">
-        <div className="left-gradient"></div>
+        <div className="left-gradient">
+          <div className="front">
+            <Front formdata={formdata} />
+            {/* {formdata && <Front formdata={formdata} />} */}
+          </div>
+          <div className="back">
+            <Back formdata={formdata} />
+          </div>
+        </div>
         <div className="right-container">
           <div className="form-container">
             <form onSubmit={handleSubmit}>
